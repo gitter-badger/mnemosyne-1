@@ -1,17 +1,27 @@
+<!DOCTYPE HTML>
 <html>
 <head>
     <title>{% block title %}Mnemosyne{% endblock %}</title>
+    <meta name="author" content="Herman Barrantes"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/webjars/pure/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="/webjars/pure/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="/webjars/pure/grids-responsive-min.css">
+    <!--<![endif]-->
 </head>
 <body>
-    <div id="content">
+    <section id="content" class="pure-g">
         {% block content %}{% endblock %}
-    </div>
-    <div id="footer">
+    </section>
+    <footer id="footer">
         {% block footer %}
-            Copyright 2016
+            <p>Copyright 2016</p>
         {% endblock %}
-    </div>
+    </footer>
     <script src="/webjars/jquery/jquery.min.js"></script>
 </body>
 </html>

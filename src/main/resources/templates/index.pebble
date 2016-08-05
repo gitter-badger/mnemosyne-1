@@ -3,6 +3,17 @@
 {% block title %} Inicio {% endblock %}
 
 {% block content %}
+<div class="pure-u-1">
     <h1>Inicio</h1>
-    <p>{{ mensaje }}.</p>
+    {% for entry in entries %}
+        <article>
+            <header>
+                <h3>{{ entry.title }}</h3>
+            </header>
+            <p>{{ entry.content }}</p>
+        </article>
+    {% else %}
+        <p> There are no entries. </p>
+    {% endfor %}
+</div>
 {% endblock %}
