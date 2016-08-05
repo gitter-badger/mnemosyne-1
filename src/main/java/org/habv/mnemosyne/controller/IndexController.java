@@ -2,6 +2,7 @@ package org.habv.mnemosyne.controller;
 
 import org.habv.mnemosyne.repository.EntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +18,8 @@ public class IndexController {
     private EntryRepository entryRepository;
 
     @GetMapping(value = {"/", "/index"})
-    public String index(Model model) {
-        model.addAttribute("entries", entryRepository.findAll());
+    public String index(Model model, Pageable pageable) {
+        model.addAttribute("entries", entryRepository.findAll(pageable));
         return "index";
     }
 }
