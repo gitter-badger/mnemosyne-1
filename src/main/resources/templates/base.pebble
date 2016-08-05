@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>{% block title %}Mnemosyne{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
     <div id="content">
@@ -11,5 +12,6 @@
             Copyright 2016
         {% endblock %}
     </div>
+    <script src="/webjars/jquery/jquery.min.js"></script>
 </body>
 </html>
