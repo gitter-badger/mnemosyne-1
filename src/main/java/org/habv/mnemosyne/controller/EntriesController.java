@@ -19,8 +19,12 @@ public class EntriesController {
 
     @Autowired
     private EntryRepository entryRepository;
-    @Value("${spring.data.rest.default-page-size:20}")
+    @Value("${config.page-size:20}")
     private Integer size;
+
+    private Pageable getPage(Integer page) {
+        return new PageRequest(page <= 0 ? 0 : page - 1, size);
+    }
 
     @GetMapping({"/", "/page"})
     public String index(Model model, Pageable pageable) {
@@ -28,10 +32,9 @@ public class EntriesController {
         return "entries";
     }
 
-    @GetMapping("/page/{page}")
+    @GetMapping("/page/{page:[0-9]+}")
     public String page(@PathVariable("page") Integer page, Model model) {
-        Pageable pageable = new PageRequest(page <= 0 ? 0 : page - 1, size);
-        model.addAttribute("entries", entryRepository.findAll(pageable));
+        model.addAttribute("entries", entryRepository.findAll(getPage(page)));
         return "entries";
     }
 }
