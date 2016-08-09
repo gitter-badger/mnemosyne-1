@@ -1,10 +1,10 @@
 {% extends "base" %}
 
-{% block title %} Inicio {% endblock %}
+{% block title %} {{ message('titulo.inicio') }} {% endblock %}
 
 {% block content %}
 <div class="pure-u-1">
-    <h1>Inicio</h1>
+    <h1>{{ message('titulo.inicio') }}</h1>
     {% for entry in entries %}
         <article>
             <header>
@@ -13,7 +13,7 @@
             <p>{{ entry.content }}</p>
         </article>
     {% else %}
-        <p> There are no entries. </p>
+        <p>{{ message('blog.no_entradas') }}</p>
     {% endfor %}
 </div>
 {% endblock %}

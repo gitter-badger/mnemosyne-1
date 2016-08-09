@@ -19,6 +19,7 @@ public class IndexController {
 
     @GetMapping(value = {"/", "/index"})
     public String index(Model model, Pageable pageable) {
+//        Pageable pag = new PageRequest(page, pageSize);
         model.addAttribute("entries", entryRepository.findAll(pageable));
         return "index";
     }
