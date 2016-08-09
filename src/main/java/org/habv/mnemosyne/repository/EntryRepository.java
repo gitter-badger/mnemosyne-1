@@ -21,4 +21,7 @@ public interface EntryRepository extends MongoRepository<Entry, String> {
     
     @RestResource(path = "entriesByCategory", rel = "entriesByCategory")
     public Page<Entry> findByCategoryOrderByDateDesc(@Param("category") String category, Pageable pageable);
+    
+    @RestResource(path = "entriesByTag", rel = "entriesByTag")
+    public Page<Entry> findByTagsOrderByDateDesc(@Param("tag") String tag, Pageable pageable);
 }
