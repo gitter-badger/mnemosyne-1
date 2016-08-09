@@ -24,7 +24,7 @@
 </head>
 <body>
 <div id="layout" class="pure-g">
-    <section class="sidebar pure-u-1 pure-u-md-1-4">
+    <aside class="sidebar pure-u-1 pure-u-md-1-4">
         <div class="header">
             <h1 class="brand-title">{{ message('title.blog') }}</h1>
             <h2 class="brand-tagline">{{ message('title.description') }}</h2>
@@ -39,7 +39,7 @@
                 </ul>
             </nav>
         </div>
-    </section>
+    </aside>
     <section class="content pure-u-1 pure-u-md-3-4">
 {% block content %}{% endblock %}
         <footer class="footer">
