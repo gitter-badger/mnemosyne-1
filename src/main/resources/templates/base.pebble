@@ -16,10 +16,10 @@
     <!--<![endif]-->
 
     <!--[if lte IE 8]>
-        <link rel="stylesheet" href="css/blog-old-ie.css">
+        <link rel="stylesheet" href="/css/blog-old-ie.css">
     <![endif]-->
     <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="css/blog.css">
+        <link rel="stylesheet" href="/css/blog.css">
     <!--<![endif]-->
 </head>
 <body>

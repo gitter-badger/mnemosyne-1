@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -19,6 +20,8 @@ public class Entry {
     private String title;
     private String content;
     private Date date;
+    @Indexed
     private String category;
+    @Indexed
     private List<String> tags;
 }
