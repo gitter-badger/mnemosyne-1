@@ -10,7 +10,7 @@
             <header class="post-header">
                 <h2 class="post-title">{{ entry.title }}</h2>
                 <p class="post-meta">
-                    {{ message('tag.blog.published_date') }} {{ entry.date | date("dd/MM/yyyy hh:mm a") }}
+                    {{ message('tag.blog.published_date') }} {{ entry.date | date(message('tag.blog.date.format')) }}
                 </p>
             </header>
             <div class="post-description">
