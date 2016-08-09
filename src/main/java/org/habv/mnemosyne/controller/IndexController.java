@@ -19,7 +19,7 @@ public class IndexController {
 
     @GetMapping(value = {"/", "/index"})
     public String index(Model model, Pageable pageable) {
-        model.addAttribute("entries", entryRepository.findAll(pageable));
+        model.addAttribute("entries", entryRepository.findByOrderByDateDesc(pageable));
         return "index";
     }
 }
