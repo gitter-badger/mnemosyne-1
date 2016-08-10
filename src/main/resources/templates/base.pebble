@@ -7,6 +7,7 @@
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="/webjars/pure/pure-min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/css/font-awesome.min.css">
 
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="/webjars/pure/grids-responsive-old-ie-min.css">

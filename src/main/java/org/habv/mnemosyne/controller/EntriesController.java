@@ -31,37 +31,37 @@ public class EntriesController {
 
     @GetMapping({"/", "/page"})
     public String index(Model model, Pageable pageable) {
-        model.addAttribute(ENTRIES, entryRepository.findAll(pageable));
+        model.addAttribute(ENTRIES, entryRepository.findByOrderByDateDesc(pageable));
         return ENTRIES;
     }
 
     @GetMapping("/page/{page:[0-9]+}")
     public String page(@PathVariable Integer page, Model model) {
-        model.addAttribute(ENTRIES, entryRepository.findAll(getPage(page)));
+        model.addAttribute(ENTRIES, entryRepository.findByOrderByDateDesc(getPage(page)));
         return ENTRIES;
     }
 
     @GetMapping("/tag/{tag}")
     public String tag(@PathVariable String tag, Model model, Pageable pageable) {
-        model.addAttribute(ENTRIES, entryRepository.findAll(pageable));
+        model.addAttribute(ENTRIES, entryRepository.findByTagsOrderByDateDesc(tag, pageable));
         return ENTRIES;
     }
 
     @GetMapping("/tag/{tag}/page/{page:[0-9]+}")
     public String tagPage(@PathVariable String tag, @PathVariable Integer page, Model model) {
-        model.addAttribute(ENTRIES, entryRepository.findAll(getPage(page)));
+        model.addAttribute(ENTRIES, entryRepository.findByTagsOrderByDateDesc(tag, getPage(page)));
         return ENTRIES;
     }
 
     @GetMapping("/category/{category}")
     public String category(@PathVariable String category, Model model, Pageable pageable) {
-        model.addAttribute(ENTRIES, entryRepository.findAll(pageable));
+        model.addAttribute(ENTRIES, entryRepository.findByCategoryOrderByDateDesc(category, pageable));
         return ENTRIES;
     }
 
     @GetMapping("/category/{category}/page/{page:[0-9]+}")
     public String categoryPage(@PathVariable String category, @PathVariable Integer page, Model model) {
-        model.addAttribute(ENTRIES, entryRepository.findAll(getPage(page)));
+        model.addAttribute(ENTRIES, entryRepository.findByCategoryOrderByDateDesc(category, getPage(page)));
         return ENTRIES;
     }
 }

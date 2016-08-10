@@ -11,7 +11,7 @@
                 <img class="post-avatar" alt="Herman Barrantes" src="https://www.gravatar.com/avatar/b6a7e065d9af7cd8115bd2485ac162ca.png?s=48&d=mm&r=g">
                 <h2 class="post-title">{{ entry.title }}</h2>
                 <p class="post-meta">
-                    {{ message('tag.blog.published_date') }} <time>{{ entry.date | date(message('tag.blog.date.format')) }}</time>
+                    <i class="fa fa-calendar" aria-hidden="true"></i> <time>{{ entry.date | date(message('tag.blog.date.format')) }}</time> <i class="fa fa-folder-open" aria-hidden="true"></i> {{ entry.category }} <i class="fa fa-tags" aria-hidden="true"></i> {{ entry.tags | join(',') }}
                 </p>
             </header>
             <div class="post-description">
