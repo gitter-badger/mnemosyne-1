@@ -8,6 +8,7 @@
 {% for entry in entries %}
         <article class="post">
             <header class="post-header">
+                <img class="post-avatar" alt="Herman Barrantes" src="https://www.gravatar.com/avatar/b6a7e065d9af7cd8115bd2485ac162ca.png?s=48&d=mm&r=g">
                 <h2 class="post-title">{{ entry.title }}</h2>
                 <p class="post-meta">
                     {{ message('tag.blog.published_date') }} <time>{{ entry.date | date(message('tag.blog.date.format')) }}</time>
