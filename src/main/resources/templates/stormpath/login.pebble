@@ -1,0 +1,24 @@
+{% extends "base" %}
+
+{% block title %}{{ message('stormpath.web.login.title') }}{% endblock %}
+
+{% block content %}
+        <h1 class="content-subhead">{{ message('stormpath.web.login.title') }}</h1>
+        <form method="post" role="form" class="pure-form pure-form-aligned">
+            <fieldset>
+{% for field in form.fields %}
+{% if field.type == 'hidden' %}
+                <input name="{{ field.name }}" type="{{ field.type }}" value="{{ field.value }}"/>
+{% else %}
+                <div class="pure-control-group">
+                    <label for="{{ field.name }}">{{ field.label }}</label>
+                    <input id="{{ field.name }}" name="{{ field.name }}" type="{{ field.type }}" placeholder="{{ field.placeholder }}" value="{{ field.value }}" {% if field.required %}required="required"{% endif %} >
+                </div>
+{% endif %}
+{% endfor %}
+                <div class="pure-controls">
+                    <button type="submit" class="pure-button pure-button-primary">{{ message('stormpath.web.login.form.button.value') }}</button>
+                </div>
+            </fieldset>
+        </form>
+{% endblock %}

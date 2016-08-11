@@ -1,0 +1,11 @@
+{% extends "base" %}
+
+{% block title %}{{ message('title.home') }}{% endblock %}
+
+{% block content %}
+<section class="errors">
+    <h1 class="content-subhead">{{ message('title.home') }}</h1>
+    <h2>{{ status }} - {{ error }}</h2>
+    <p><time>{{ timestamp | date(message('date.format')) }}</time> {{ message }}</p>
+</section>
+{% endblock %}
