@@ -3,7 +3,12 @@
 {% block title %}{{ message('stormpath.web.login.title') }}{% endblock %}
 
 {% block content %}
-        <h1 class="content-subhead">{{ message('stormpath.web.login.title') }}</h1>
+{% if registerEnabled %}
+{% set rlink = "<a href='" + registerUri + "'>" + message('stormpath.web.login.form.registerLink.text') + "</a>"%}
+        <h1 class="content-subhead">{{ message('stormpath.web.login.form.titleWithRegister', rlink) | raw }}</h1>
+{% else %}
+        <h1 class="content-subhead">{{ message('stormpath.web.login.form.title') }}</h1>
+{% endif %}
         <form method="post" role="form" class="pure-form pure-form-aligned">
             <fieldset>
 {% for field in form.fields %}
@@ -21,4 +26,5 @@
                 </div>
             </fieldset>
         </form>
+        <script src='assets/js/stormpath.js'></script>
 {% endblock %}
