@@ -1,7 +1,6 @@
 package org.habv.mnemosyne.controller;
 
 import org.habv.mnemosyne.repository.EntryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +17,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class EntriesController {
 
     private static final String ENTRIES = "entries";
-    @Autowired
-    private EntryRepository entryRepository;
     @Value("${config.first-page:0}")
     private Integer firstPage;
     @Value("${config.page-size:20}")
     private Integer pageSize;
+    private final EntryRepository entryRepository;
+
+    public EntriesController(EntryRepository entryRepository) {
+        this.entryRepository = entryRepository;
+    }
 
     private Pageable getPage(Integer page) {
         return new PageRequest(page <= firstPage ? firstPage : page - 1, pageSize);
