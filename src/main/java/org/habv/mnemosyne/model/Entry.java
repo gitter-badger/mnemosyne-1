@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @since 04/08/2016
  */
 @Data
-@Document
+@Document(collection = "entries")
 public class Entry {
 
     @Id
