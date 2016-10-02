@@ -14,7 +14,7 @@ public class SecurityUser implements UserDetails {
 
     private final String username;
     private final String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Collection<? extends GrantedAuthority> authorities;
     private final boolean enabled;
     private final boolean accountNonExpired = true;
     private final boolean accountNonLocked = true;

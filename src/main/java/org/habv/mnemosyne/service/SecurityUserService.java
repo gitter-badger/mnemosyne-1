@@ -4,11 +4,12 @@ import java.util.Optional;
 import org.habv.mnemosyne.model.SecurityUser;
 import org.habv.mnemosyne.model.User;
 import org.habv.mnemosyne.repository.UserRepository;
-import org.springframework.security.core.authority.AuthorityUtils;
+import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import static org.springframework.util.StringUtils.toStringArray;
 
 /**
  * @author Herman Barrantes
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityUserService implements UserDetailsService {
 
+    private static final String USER_NOT_FOUND_MESSAGE = "Usuario no encontrado";
     private final UserRepository userRepository;
 
     public SecurityUserService(UserRepository userRepository) {
@@ -26,7 +28,7 @@ public class SecurityUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (username == null || username.trim().isEmpty()) {
-            throw new UsernameNotFoundException("Usuario no encontrado");
+            throw new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE);
         }
         Optional<User> oUser = userRepository.findByEmail(username);
         return oUser
@@ -34,9 +36,9 @@ public class SecurityUserService implements UserDetailsService {
                 .map(user -> new SecurityUser(
                         user.getEmail(),
                         user.getPassword(),
-                        AuthorityUtils.createAuthorityList(user.getRoles().toArray(new String[0])),
+                        createAuthorityList(toStringArray(user.getRoles())),
                         user.isEnabled()))
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
     }
 
 }

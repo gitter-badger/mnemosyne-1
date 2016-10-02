@@ -19,7 +19,7 @@
             </div>
         </article>
 {% else %}
-        <p>{{ message('tag.blog.no_entries') }}</p>
+        <p>{{ message('blog.no_entries') }}</p>
 {% endfor %}
 </section>
 {% endblock %}
