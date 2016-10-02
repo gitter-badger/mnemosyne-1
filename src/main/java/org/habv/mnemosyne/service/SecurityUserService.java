@@ -1,9 +1,12 @@
 package org.habv.mnemosyne.service;
 
+import java.util.Locale;
 import java.util.Optional;
 import org.habv.mnemosyne.model.SecurityUser;
 import org.habv.mnemosyne.model.User;
 import org.habv.mnemosyne.repository.UserRepository;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,19 +21,22 @@ import static org.springframework.util.StringUtils.toStringArray;
 @Service
 public class SecurityUserService implements UserDetailsService {
 
-    private static final String USER_NOT_FOUND_MESSAGE = "Usuario no encontrado";
     private final UserRepository userRepository;
+    private final MessageSource messageSource;
 
-    public SecurityUserService(UserRepository userRepository) {
+    public SecurityUserService(UserRepository userRepository, MessageSource messageSource) {
         this.userRepository = userRepository;
+        this.messageSource = messageSource;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Locale locale = LocaleContextHolder.getLocale();
+        String userNotFound = messageSource.getMessage("security.user_not_found", null, locale);
         Optional
                 .of(username)
                 .filter(name -> !name.trim().isEmpty())
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
+                .orElseThrow(() -> new UsernameNotFoundException(userNotFound));
         return userRepository
                 .findByEmail(username)
                 .filter(User::isEnabled)
@@ -39,7 +45,7 @@ public class SecurityUserService implements UserDetailsService {
                         user.getPassword(),
                         createAuthorityList(toStringArray(user.getRoles())),
                         user.isEnabled()))
-                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
+                .orElseThrow(() -> new UsernameNotFoundException(userNotFound));
     }
 
 }
