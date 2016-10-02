@@ -27,12 +27,13 @@ public class SecurityUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (username == null || username.trim().isEmpty()) {
-            throw new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE);
-        }
-        Optional<User> oUser = userRepository.findByEmail(username);
-        return oUser
-                .filter(user -> user.isEnabled())
+        Optional
+                .of(username)
+                .filter(name -> !name.trim().isEmpty())
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MESSAGE));
+        return userRepository
+                .findByEmail(username)
+                .filter(User::isEnabled)
                 .map(user -> new SecurityUser(
                         user.getEmail(),
                         user.getPassword(),
