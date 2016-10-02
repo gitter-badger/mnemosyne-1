@@ -3,6 +3,7 @@ package org.habv.mnemosyne.model;
 import java.util.List;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -16,6 +17,7 @@ public class User {
     @Id
     private String id;
     private String name;
+    @Indexed
     private String email;
     private String password;
     private List<String> roles;

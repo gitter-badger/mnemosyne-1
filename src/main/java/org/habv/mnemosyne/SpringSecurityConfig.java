@@ -1,9 +1,11 @@
 package org.habv.mnemosyne;
 
+import org.habv.mnemosyne.service.SecurityUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import static com.stormpath.spring.config.StormpathWebSecurityConfigurer.stormpath;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -14,20 +16,25 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private SecurityUserService securityUserService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.apply(stormpath());
         http
-                .authorizeRequests().anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error").permitAll().and()
-                .logout().logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").deleteCookies("JSESSIONID").invalidateHttpSession(true).permitAll().and()
-                ;//.csrf().disable();
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error").permitAll()
+                .and()
+                .logout().logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").deleteCookies("JSESSIONID").invalidateHttpSession(true).permitAll()
+                .and() //.csrf().disable()
+                ;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password("admin").roles("ADMIN").and()
-                .withUser("user").password("user").roles("USER");
+        auth
+                .userDetailsService(securityUserService)
+                .passwordEncoder(new ShaPasswordEncoder(256));
     }
 }
