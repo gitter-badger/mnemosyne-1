@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @since 04/08/2016
  */
 @Controller
-public class EntriesController {
+public class HomeController {
 
     private static final String ENTRIES = "entries";
     @Value("${config.first-page:0}")
@@ -23,7 +23,7 @@ public class EntriesController {
     private Integer pageSize;
     private final EntryRepository entryRepository;
 
-    public EntriesController(EntryRepository entryRepository) {
+    public HomeController(EntryRepository entryRepository) {
         this.entryRepository = entryRepository;
     }
 

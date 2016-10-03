@@ -37,7 +37,7 @@ public class SecurityUserService implements UserDetailsService {
                 .filter(name -> !name.trim().isEmpty())
                 .orElseThrow(() -> new UsernameNotFoundException(userNotFound));
         return userRepository
-                .findByEmailAndEnabledTrue(username)
+                .findByEmailAndEnabledTrue(username.trim())
                 .map(user -> new SecurityUser(
                         user.getEmail(),
                         user.getPassword(),
