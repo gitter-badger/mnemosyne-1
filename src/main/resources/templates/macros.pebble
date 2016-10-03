@@ -1,3 +1,3 @@
-{% macro img_gravatar(email, size="48", image="mm", rating="g") %}
+{% macro gravatar(email, size="48", image="mm", rating="g") %}
 <a href="https://www.gravatar.com/{{ md5(email) }}" target="_blank"><img class="post-avatar" alt="{{ email }}" src="https://www.gravatar.com/avatar/{{ md5(email) }}.png?s={{ size }}&d={{ image }}&r={{ rating }}"></a>
 {% endmacro %}
