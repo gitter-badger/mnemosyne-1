@@ -19,6 +19,7 @@ public class Entry {
     private String id;
     private String title;
     private String content;
+    private String author;
     private Date date;
     @Indexed
     private String category;
