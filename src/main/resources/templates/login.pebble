@@ -1,22 +1,22 @@
 {% extends "base" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}{{ message('login.title') }}{% endblock %}
 
 {% block content %}
-        <h1 class="content-subhead">Login</h1>
+        <h1 class="content-subhead">{{ message('login.title') }}</h1>
         <form method="post" role="form" class="pure-form pure-form-aligned">
             <fieldset>
                 <div class="pure-control-group">
-                    <label for="username">Username</label>
-                    <input id="username" name="username" type="text" placeholder="Username" value="" required="required" autofocus="autofocus">
+                    <label for="username">{{ message('login.username') }}</label>
+                    <input id="username" name="username" type="text" placeholder="{{ message('login.username') }}" value="" required="required" autofocus="autofocus">
                 </div>
                 <div class="pure-control-group">
-                    <label for="password">Password</label>
-                    <input id="password" name="password" type="password" placeholder="Password" value="" required="required">
+                    <label for="password">{{ message('login.password') }}</label>
+                    <input id="password" name="password" type="password" placeholder="{{ message('login.password') }}" value="" required="required">
                 </div>
                 <input type="hidden" name="{{ csrf.parameterName }}" value="{{ csrf.token }}"/>
                 <div class="pure-controls">
-                    <button type="submit" class="pure-button pure-button-primary">Login</button>
+                    <button type="submit" class="pure-button pure-button-primary">{{ message('login.button') }}</button>
                 </div>
             </fieldset>
         </form>

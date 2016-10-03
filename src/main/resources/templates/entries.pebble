@@ -1,10 +1,10 @@
 {% extends "base" %}
 
-{% block title %}{{ message('title.home') }}{% endblock %}
+{% block title %}{{ message('blog.home') }}{% endblock %}
 
 {% block content %}
 <section class="posts">
-    <h1 class="content-subhead">{{ message('title.home') }}</h1>
+    <h1 class="content-subhead">{{ message('blog.home') }}</h1>
 {% for entry in entries %}
         <article class="post">
             <header class="post-header">
