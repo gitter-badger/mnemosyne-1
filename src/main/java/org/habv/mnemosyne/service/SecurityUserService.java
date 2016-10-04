@@ -30,12 +30,10 @@ public class SecurityUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Locale locale = LocaleContextHolder.getLocale();
-        String userNotFound = messageSource.getMessage("security.user_not_found", null, locale);
         Optional
                 .ofNullable(username)
                 .filter(name -> !name.trim().isEmpty())
-                .orElseThrow(() -> new UsernameNotFoundException(userNotFound));
+                .orElseThrow(this::getException);
         return userRepository
                 .findByEmailAndEnabledTrue(username.trim())
                 .map(user -> new SecurityUser(
@@ -43,7 +41,13 @@ public class SecurityUserService implements UserDetailsService {
                         user.getPassword(),
                         createAuthorityList(toStringArray(user.getRoles())),
                         user.isEnabled()))
-                .orElseThrow(() -> new UsernameNotFoundException(userNotFound));
+                .orElseThrow(this::getException);
+    }
+
+    private UsernameNotFoundException getException() {
+        Locale locale = LocaleContextHolder.getLocale();
+        String userNotFoundMessage = messageSource.getMessage("security.user_not_found", null, locale);
+        return new UsernameNotFoundException(userNotFoundMessage);
     }
 
 }

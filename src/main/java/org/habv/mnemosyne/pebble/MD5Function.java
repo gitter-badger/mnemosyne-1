@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.springframework.util.DigestUtils;
+import static org.springframework.util.DigestUtils.md5DigestAsHex;
 
 /**
  * @author Herman Barrantes
@@ -18,7 +18,7 @@ public class MD5Function implements Function {
     @Override
     public Object execute(Map<String, Object> args) {
         String email = (String) args.get("email");
-        return DigestUtils.md5DigestAsHex(email.getBytes(StandardCharsets.UTF_8));
+        return md5DigestAsHex(email.getBytes(StandardCharsets.UTF_8));
     }
     
     @Override

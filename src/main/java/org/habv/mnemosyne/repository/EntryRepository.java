@@ -13,14 +13,14 @@ import org.springframework.data.rest.core.annotation.RestResource;
  * @since 04/08/2016
  */
 @RepositoryRestResource(collectionResourceRel = "entries", path = "entries")
-public interface EntryRepository extends MongoRepository<Entry, String> {
+public interface EntryRepository extends MongoRepository<Entry, String>, EntryRepositoryCustom {
 
     @RestResource(path = "entries", rel = "entries")
     Page<Entry> findByOrderByDateDesc(Pageable pageable);
-    
+
     @RestResource(path = "entriesByCategory", rel = "entriesByCategory")
     Page<Entry> findByCategoryOrderByDateDesc(@Param("category") String category, Pageable pageable);
-    
+
     @RestResource(path = "entriesByTag", rel = "entriesByTag")
     Page<Entry> findByTagsOrderByDateDesc(@Param("tag") String tag, Pageable pageable);
 }
