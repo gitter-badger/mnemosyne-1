@@ -1,11 +1,10 @@
 package org.habv.mnemosyne.service;
 
-import java.util.Locale;
 import java.util.Optional;
 import org.habv.mnemosyne.model.SecurityUser;
 import org.habv.mnemosyne.repository.UserRepository;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,8 +44,7 @@ public class SecurityUserService implements UserDetailsService {
     }
 
     private UsernameNotFoundException getException() {
-        Locale locale = LocaleContextHolder.getLocale();
-        String userNotFoundMessage = messageSource.getMessage("security.user_not_found", null, locale);
+        String userNotFoundMessage = messageSource.getMessage("security.user_not_found", null, getLocale());
         return new UsernameNotFoundException(userNotFoundMessage);
     }
 
