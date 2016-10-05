@@ -1,3 +1,4 @@
+{% import "macros" %}
 {% extends "base" %}
 
 {% block title %}{{ message('login.title') }}{% endblock %}
@@ -14,7 +15,7 @@
                     <label for="password">{{ message('login.password') }}</label>
                     <input id="password" name="password" type="password" placeholder="{{ message('login.password') }}" value="" required="required">
                 </div>
-                <input type="hidden" name="{{ csrf.parameterName }}" value="{{ csrf.token }}"/>
+                {{ inputcsrf(request.getAttribute('_csrf')) }}
                 <div class="pure-controls">
                     <button type="submit" class="pure-button pure-button-primary">{{ message('login.button') }}</button>
                 </div>
