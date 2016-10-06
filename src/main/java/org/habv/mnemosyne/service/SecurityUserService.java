@@ -1,16 +1,16 @@
 package org.habv.mnemosyne.service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.habv.mnemosyne.model.SecurityUser;
 import org.habv.mnemosyne.repository.UserRepository;
 import org.springframework.context.MessageSource;
 import static org.springframework.context.i18n.LocaleContextHolder.getLocale;
-import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import static org.springframework.util.StringUtils.toStringArray;
 
 /**
  * @author Herman Barrantes
@@ -38,7 +38,10 @@ public class SecurityUserService implements UserDetailsService {
                 .map(user -> new SecurityUser(
                         user.getEmail(),
                         user.getPassword(),
-                        createAuthorityList(toStringArray(user.getRoles())),
+                        user.getRoles()
+                        .stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList()),
                         user.isEnabled()))
                 .orElseThrow(this::getException);
     }

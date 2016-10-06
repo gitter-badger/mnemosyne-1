@@ -2,7 +2,7 @@
 <!-- https://springframework.guru/using-logback-spring-boot/ -->
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <springProfile name="test,prod">
+    <springProfile name="!dev">
         <logger name="org.springframework" level="WARN"/>        
     </springProfile>
     <logger name="org.mongodb.driver" level="WARN"/>
