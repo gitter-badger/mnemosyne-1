@@ -1,5 +1,6 @@
 package org.habv.mnemosyne.controller;
 
+import org.habv.mnemosyne.model.Entry;
 import org.habv.mnemosyne.repository.EntryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -16,14 +17,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class HomeController {
 
-    private static final String ENTRIES = "entries";
-    @Value("${config.first-page:0}")
-    private Integer firstPage;
-    @Value("${config.page-size:20}")
-    private Integer pageSize;
+    private static final String ENTRIES = Entry.COLLECTION_NAME;
+    private final Integer firstPage;
+    private final Integer pageSize;
     private final EntryRepository entryRepository;
 
-    public HomeController(EntryRepository entryRepository) {
+    public HomeController(
+            @Value("${config.first-page:0}") Integer firstPage,
+            @Value("${config.page-size:20}") Integer pageSize,
+            EntryRepository entryRepository) {
+
+        this.firstPage = firstPage;
+        this.pageSize = pageSize;
         this.entryRepository = entryRepository;
     }
 

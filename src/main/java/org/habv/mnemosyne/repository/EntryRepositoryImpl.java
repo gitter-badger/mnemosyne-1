@@ -1,6 +1,7 @@
 package org.habv.mnemosyne.repository;
 
 import java.util.List;
+import static org.habv.mnemosyne.model.Entry.COLLECTION_NAME;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
@@ -10,7 +11,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
  */
 public class EntryRepositoryImpl implements EntryRepositoryCustom {
 
-    private static final String COLLECTION_NAME = "entries";
     @Autowired
     private MongoTemplate mongoTemplate;
 

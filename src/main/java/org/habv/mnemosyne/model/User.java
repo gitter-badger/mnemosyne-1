@@ -2,6 +2,7 @@ package org.habv.mnemosyne.model;
 
 import java.util.List;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,8 +12,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * @since 04/08/2016
  */
 @Data
-@Document(collection = "users")
+@EqualsAndHashCode(of = {"id"})
+@Document(collection = User.COLLECTION_NAME)
 public class User {
+
+    public static final String COLLECTION_NAME = "users";
 
     @Id
     private String id;
