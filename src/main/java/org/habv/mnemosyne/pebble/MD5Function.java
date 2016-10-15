@@ -9,7 +9,8 @@ import static org.springframework.util.DigestUtils.md5DigestAsHex;
 
 /**
  * @author Herman Barrantes
- * @since 01/10/2016
+ * @since 0.1.0
+ * @date 01/10/2016
  */
 public class MD5Function implements Function {
     

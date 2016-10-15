@@ -4,9 +4,9 @@ import com.github.javafaker.Faker;
 import java.util.Optional;
 import org.habv.mnemosyne.model.User;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +15,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @author Herman Barrantes
+ * @since 0.1.0
+ * @date 11/10/2016
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -58,11 +60,27 @@ public class UserRepositoryTest {
         Optional<User> result = userRepository.findByEmailAndEnabledTrue(user1.getEmail());
         assertThat(result.isPresent(), is(true));
         assertThat(result.get(), is(equalTo(user1)));
+    }
+
+    /**
+     * Test of findByEmailAndEnabledTrue method, of class UserRepository.
+     */
+    @Test
+    public void testFindByEmailAndEnabledTrue_InvalidUser() {
+        System.out.println("UserRepository.findByEmailAndEnabledTrue (invalid user)");
         //Invalid user
-        result = userRepository.findByEmailAndEnabledTrue(user2.getEmail());
+        Optional<User> result = userRepository.findByEmailAndEnabledTrue(user2.getEmail());
         assertThat(result.isPresent(), is(false));
+    }
+
+    /**
+     * Test of findByEmailAndEnabledTrue method, of class UserRepository.
+     */
+    @Test
+    public void testFindByEmailAndEnabledTrue_FalseUser() {
+        System.out.println("UserRepository.findByEmailAndEnabledTrue (false user)");
         //False user
-        result = userRepository.findByEmailAndEnabledTrue(faker.internet().emailAddress());
+        Optional<User> result = userRepository.findByEmailAndEnabledTrue(faker.internet().emailAddress());
         assertThat(result.isPresent(), is(false));
     }
 

@@ -6,7 +6,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * @author Herman Barrantes
- * @since 04/08/2016
+ * @since 0.1.0
+ * @date 04/08/2016
  */
 public interface UserRepository extends MongoRepository<User, String> {
 

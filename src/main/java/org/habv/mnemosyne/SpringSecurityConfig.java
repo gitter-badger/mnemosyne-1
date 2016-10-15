@@ -4,14 +4,15 @@ import org.habv.mnemosyne.service.SecurityUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * @author Herman Barrantes
- * @since 11/08/2016
+ * @since 0.1.0
+ * @date 11/08/2016
  */
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {

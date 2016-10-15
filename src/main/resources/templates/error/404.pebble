@@ -1,0 +1,12 @@
+{% extends "base" %}
+
+{% block title %}{{ message('blog.home') }}{% endblock %}
+
+{% block content %}
+<section class="errors">
+    <h1 class="content-subhead">{{ message('blog.home') }}</h1>
+    <h2>404</h2>
+    <p>{{ exception }}</p>
+    <p>{{ url }}</p>
+</section>
+{% endblock %}

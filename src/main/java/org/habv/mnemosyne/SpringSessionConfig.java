@@ -7,7 +7,8 @@ import org.springframework.session.data.mongo.config.annotation.web.http.EnableM
 
 /**
  * @author Herman Barrantes
- * @since 11/08/2016
+ * @since 0.1.0
+ * @date 11/08/2016
  */
 @Configuration
 @EnableMongoHttpSession(maxInactiveIntervalInSeconds = 300)

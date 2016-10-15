@@ -7,7 +7,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  * @author Herman Barrantes
- * @since 03/10/2016
+ * @since 0.1.0
+ * @date 03/10/2016
  */
 public class EntryRepositoryImpl implements EntryRepositoryCustom {
 

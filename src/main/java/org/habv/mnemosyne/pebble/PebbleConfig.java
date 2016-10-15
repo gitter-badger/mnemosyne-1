@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author Herman Barrantes
- * @since 01/10/2016
+ * @since 0.1.0
+ * @date 01/10/2016
  */
 @Component
 public class PebbleConfig {

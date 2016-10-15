@@ -10,7 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @author Herman Barrantes
- * @since 04/08/2016
+ * @since 0.1.0
+ * @date 04/08/2016
  */
 @Data
 @EqualsAndHashCode(of = {"id"})
@@ -21,6 +22,8 @@ public class Entry {
 
     @Id
     private String id;
+    @Indexed
+    private String path;
     private String title;
     private String content;
     private String author;

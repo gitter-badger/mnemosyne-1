@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author Herman Barrantes
- * @since 04/08/2016
+ * @since 0.1.0
+ * @date 04/08/2016
  */
 @SpringBootApplication
 public class MnemosyneApplication {

@@ -4,7 +4,8 @@ import java.util.List;
 
 /**
  * @author Herman Barrantes
- * @since 03/10/2016
+ * @since 0.1.0
+ * @date 03/10/2016
  */
 public interface EntryRepositoryCustom {
 

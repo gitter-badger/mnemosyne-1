@@ -7,7 +7,8 @@ import java.util.Map;
 
 /**
  * @author Herman Barrantes
- * @since 01/10/2016
+ * @since 0.1.0
+ * @date 01/10/2016
  */
 public class MnemosyneExtension extends AbstractExtension {
 

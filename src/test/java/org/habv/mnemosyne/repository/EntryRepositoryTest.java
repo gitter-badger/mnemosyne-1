@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.habv.mnemosyne.model.Entry;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +24,8 @@ import static org.springframework.util.StringUtils.toStringArray;
 
 /**
  * @author Herman Barrantes
+ * @since 0.1.0
+ * @date 11/10/2016
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -58,8 +60,8 @@ public class EntryRepositoryTest {
     }
 
     /**
-     * Get the element of list on index, if index its bigger than list size,
-     * index is calculated again to avoid IndexOutOfBoundsException.
+     * Get element of list on index, if index its bigger than list size, index
+     * is recalculate to avoid IndexOutOfBoundsException.
      *
      * @param list list of elements
      * @param index index to get
@@ -74,7 +76,7 @@ public class EntryRepositoryTest {
     }
 
     /**
-     * Check if elements of page are sorted chronologically.
+     * Check if elements of page are sorted chronologicaly.
      *
      * @param result page to check chronology
      */

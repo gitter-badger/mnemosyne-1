@@ -7,10 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * @author Herman Barrantes
- * @since 01/10/2016
+ * @since 0.1.0
+ * @date 01/10/2016
  */
 @Value
 public class SecurityUser implements UserDetails {
+
+    private static final long serialVersionUID = 7433718822494784923L;
 
     private final String username;
     private final String password;
