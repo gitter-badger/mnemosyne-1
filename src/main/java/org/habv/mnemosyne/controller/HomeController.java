@@ -1,14 +1,16 @@
 package org.habv.mnemosyne.controller;
 
+import java.util.Optional;
 import org.habv.mnemosyne.model.Entry;
-import org.habv.mnemosyne.service.EntryService;
+import org.habv.mnemosyne.repository.EntryRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Herman Barrantes
@@ -18,58 +20,61 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class HomeController {
 
-    private static final String ENTRIES = Entry.COLLECTION_NAME;
+    public static final String TEMPLATE = "entries";
     private final Integer firstPage;
     private final Integer pageSize;
-    private final EntryService entryService;
+    private final EntryRepository entryRepository;
 
     public HomeController(
             @Value("${config.first-page:0}") Integer firstPage,
             @Value("${config.page-size:20}") Integer pageSize,
-            EntryService entryService) {
+            EntryRepository entryRepository) {
 
         this.firstPage = firstPage;
         this.pageSize = pageSize;
-        this.entryService = entryService;
+        this.entryRepository = entryRepository;
     }
 
     private Pageable getPage(Integer page) {
         return new PageRequest(page <= firstPage ? firstPage : page - 1, pageSize);
     }
 
+    private ModelAndView loadPage(Page<Entry> entries) {
+        return Optional
+                .ofNullable(entries)
+                .filter(page -> page.hasContent())
+                .map(page -> new ModelAndView(TEMPLATE, TEMPLATE, page))
+                .orElse(new NotFoundView());
+    }
+
     @GetMapping({"/", "/page"})
-    public String index(Model model, Pageable pageable) {
-        model.addAttribute(ENTRIES, entryService.findByOrderByDateDesc(pageable));
-        return ENTRIES;
+    public ModelAndView index(Pageable pageable) {
+        return loadPage(entryRepository.findByOrderByDateDesc(pageable));
     }
 
     @GetMapping("/page/{page:[0-9]+}")
-    public String page(@PathVariable Integer page, Model model) {
-        model.addAttribute(ENTRIES, entryService.findByOrderByDateDesc(getPage(page)));
-        return ENTRIES;
+    public ModelAndView page(@PathVariable Integer page) {
+        return loadPage(entryRepository.findByOrderByDateDesc(getPage(page)));
     }
 
     @GetMapping("/tag/{tag}")
-    public String tag(@PathVariable String tag, Model model, Pageable pageable) {
-        model.addAttribute(ENTRIES, entryService.findByTagsOrderByDateDesc(tag, pageable));
-        return ENTRIES;
+    public ModelAndView tag(@PathVariable String tag, Pageable pageable) {
+        return loadPage(entryRepository.findByTagsOrderByDateDesc(tag, pageable));
     }
 
     @GetMapping("/tag/{tag}/page/{page:[0-9]+}")
-    public String tagPage(@PathVariable String tag, @PathVariable Integer page, Model model) {
-        model.addAttribute(ENTRIES, entryService.findByTagsOrderByDateDesc(tag, getPage(page)));
-        return ENTRIES;
+    public ModelAndView tagPage(@PathVariable String tag, @PathVariable Integer page) {
+        return loadPage(entryRepository.findByTagsOrderByDateDesc(tag, getPage(page)));
     }
 
     @GetMapping("/category/{category}")
-    public String category(@PathVariable String category, Model model, Pageable pageable) {
-        model.addAttribute(ENTRIES, entryService.findByCategoryOrderByDateDesc(category, pageable));
-        return ENTRIES;
+    public ModelAndView category(@PathVariable String category, Pageable pageable) {
+        return loadPage(entryRepository.findByCategoryOrderByDateDesc(category, pageable));
     }
 
     @GetMapping("/category/{category}/page/{page:[0-9]+}")
-    public String categoryPage(@PathVariable String category, @PathVariable Integer page, Model model) {
-        model.addAttribute(ENTRIES, entryService.findByCategoryOrderByDateDesc(category, getPage(page)));
-        return ENTRIES;
+    public ModelAndView categoryPage(@PathVariable String category, @PathVariable Integer page) {
+        return loadPage(entryRepository.findByCategoryOrderByDateDesc(category, getPage(page)));
     }
+
 }

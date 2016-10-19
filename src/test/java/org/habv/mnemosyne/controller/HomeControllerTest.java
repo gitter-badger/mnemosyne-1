@@ -6,8 +6,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import static org.habv.mnemosyne.controller.HomeController.TEMPLATE;
 import org.habv.mnemosyne.model.Entry;
-import org.habv.mnemosyne.service.EntryService;
+import org.habv.mnemosyne.repository.EntryRepository;
 import static org.hamcrest.Matchers.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +45,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class HomeControllerTest {
 
     private static final int ENTRIES_SIZE = 10;
-    private static final String ENTRIES = Entry.COLLECTION_NAME;
     private final Faker faker = new Faker();
     private String author;
     private String category;
@@ -61,7 +61,7 @@ public class HomeControllerTest {
     private Integer pageSize;
 
     @MockBean
-    private EntryService entryService;
+    private EntryRepository entryRepository;
 
     @Before
     public void setUp() {
@@ -120,7 +120,7 @@ public class HomeControllerTest {
      * @return an empty page
      */
     private Page<Entry> getPageWithoutData() {
-        return new PageImpl<>(Collections.emptyList(), getPageableWithoutData(), 0L);
+        return new PageImpl<>(Collections.emptyList());
     }
 
     /**
@@ -133,12 +133,12 @@ public class HomeControllerTest {
         actions
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
-                .andExpect(view().name(ENTRIES))
-                .andExpect(model().attributeExists(ENTRIES))
-                .andExpect(model().attribute(ENTRIES, is(notNullValue())))
-                .andExpect(model().attribute(ENTRIES, hasProperty("content", is(not(empty())))))
-                .andExpect(model().attribute(ENTRIES, hasProperty("content", hasSize(ENTRIES_SIZE))))
-                .andExpect(forwardedUrl(ENTRIES));
+                .andExpect(view().name(TEMPLATE))
+                .andExpect(model().attributeExists(TEMPLATE))
+                .andExpect(model().attribute(TEMPLATE, is(notNullValue())))
+                .andExpect(model().attribute(TEMPLATE, hasProperty("content", is(not(empty())))))
+                .andExpect(model().attribute(TEMPLATE, hasProperty("content", hasSize(ENTRIES_SIZE))))
+                .andExpect(forwardedUrl(TEMPLATE));
     }
 
     /**
@@ -150,10 +150,10 @@ public class HomeControllerTest {
     private void checkWithoutData(ResultActions actions) throws Exception {
         actions
                 .andExpect(authenticated())
-                .andExpect(status().isOk())
-                .andExpect(view().name(ENTRIES))
-                .andExpect(model().attributeDoesNotExist(ENTRIES))
-                .andExpect(forwardedUrl(ENTRIES));
+                .andExpect(status().isNotFound())
+                .andExpect(view().name(NotFoundView.TEMPLATE))
+                .andExpect(model().attributeDoesNotExist(TEMPLATE))
+                .andExpect(forwardedUrl(NotFoundView.TEMPLATE));
     }
 
     /**
@@ -179,7 +179,7 @@ public class HomeControllerTest {
     public void testIndex() throws Exception {
         System.out.println("HomeController.index");
 
-        given(entryService.findByOrderByDateDesc(getPageableWithData()))
+        given(entryRepository.findByOrderByDateDesc(getPageableWithData()))
                 .willReturn(pageWithData);
 
         ResultActions actions = mvc.perform(get("/").accept(MediaType.TEXT_HTML));
@@ -187,7 +187,7 @@ public class HomeControllerTest {
     }
 
     /**
-     * Test of index method, of class HomeController.
+     * Test of index method without data, of class HomeController.
      *
      * @throws java.lang.Exception
      */
@@ -196,7 +196,7 @@ public class HomeControllerTest {
     public void testIndex_WithoutData() throws Exception {
         System.out.println("HomeController.index (without data)");
 
-        given(entryService.findByOrderByDateDesc(getPageableWithoutData()))
+        given(entryRepository.findByOrderByDateDesc(getPageableWithoutData()))
                 .willReturn(pageWithoutData);
 
         ResultActions actions = mvc.perform(get("/").accept(MediaType.TEXT_HTML));
@@ -211,7 +211,7 @@ public class HomeControllerTest {
     public void testPage() throws Exception {
         System.out.println("HomeController.page");
 
-        given(entryService.findByOrderByDateDesc(getPageableWithData()))
+        given(entryRepository.findByOrderByDateDesc(getPageableWithData()))
                 .willReturn(pageWithData);
 
         ResultActions actions = mvc.perform(get("/page/{page}", firstPage).accept(MediaType.TEXT_HTML));
@@ -226,7 +226,7 @@ public class HomeControllerTest {
     public void testTag() throws Exception {
         System.out.println("HomeController.tag");
 
-        given(entryService.findByTagsOrderByDateDesc(tag, getPageableWithData()))
+        given(entryRepository.findByTagsOrderByDateDesc(tag, getPageableWithData()))
                 .willReturn(pageWithData);
 
         ResultActions actions = mvc.perform(get("/tag/{tag}", tag).accept(MediaType.TEXT_HTML));
@@ -241,7 +241,7 @@ public class HomeControllerTest {
     public void testTagPage() throws Exception {
         System.out.println("HomeController.tagPage");
 
-        given(entryService.findByTagsOrderByDateDesc(tag, getPageableWithData()))
+        given(entryRepository.findByTagsOrderByDateDesc(tag, getPageableWithData()))
                 .willReturn(pageWithData);
 
         ResultActions actions = mvc.perform(get("/tag/{tag}/page/{page}", tag, firstPage).accept(MediaType.TEXT_HTML));
@@ -256,7 +256,7 @@ public class HomeControllerTest {
     public void testCategory() throws Exception {
         System.out.println("HomeController.category");
 
-        given(entryService.findByCategoryOrderByDateDesc(category, getPageableWithData()))
+        given(entryRepository.findByCategoryOrderByDateDesc(category, getPageableWithData()))
                 .willReturn(pageWithData);
 
         ResultActions actions = mvc.perform(get("/category/{category}", category).accept(MediaType.TEXT_HTML));
@@ -271,7 +271,7 @@ public class HomeControllerTest {
     public void testCategoryPage() throws Exception {
         System.out.println("HomeController.categoryPage");
 
-        given(entryService.findByCategoryOrderByDateDesc(category, getPageableWithData()))
+        given(entryRepository.findByCategoryOrderByDateDesc(category, getPageableWithData()))
                 .willReturn(pageWithData);
 
         ResultActions actions = mvc.perform(get("/category/{category}/page/{page}", category, firstPage).accept(MediaType.TEXT_HTML));

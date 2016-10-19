@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.habv.mnemosyne.model.Entry;
 import static org.hamcrest.Matchers.*;
@@ -41,6 +42,7 @@ public class EntryRepositoryTest {
     private final List<String> categories = new ArrayList<>();
     private final List<String> tags = new ArrayList<>();
     private final List<String> authors = new ArrayList<>();
+    private Entry entry;
     private List<Entry> entries = new ArrayList<>();
 
     @Value("${config.first-page:0}")
@@ -103,21 +105,43 @@ public class EntryRepositoryTest {
             authors.add(faker.internet().emailAddress());
         }
         for (int i = 0; i < ENTRIES_SIZE; i++) {
-            Entry entry = new Entry();
-            entry.setTitle(faker.lorem().sentence());
-            entry.setContent(faker.lorem().paragraph());
-            entry.setDate(faker.date().past(7, TimeUnit.DAYS));
-            entry.setAuthor(getWithIndex(authors, i));
-            entry.setCategory(getWithIndex(categories, i));
+            Entry element = new Entry();
+            element.setTitle(faker.lorem().sentence());
+            element.setContent(faker.lorem().paragraph());
+            element.setDate(faker.date().past(7, TimeUnit.DAYS));
+            element.setAuthor(getWithIndex(authors, i));
+            element.setCategory(getWithIndex(categories, i));
             String tag1 = getWithIndex(tags, i);
             String tag2 = getWithIndex(tags, i + 1);
             String tag3 = getWithIndex(tags, i + 2);
-            entry.setTags(Arrays.asList(tag1, tag2, tag3));
+            element.setTags(Arrays.asList(tag1, tag2, tag3));
 
-            entries.add(entry);
+            entries.add(element);
         }
         entries = entryRepository.save(entries);
+        entry = entries.get(0);
 //        entries.forEach(entry -> System.out.println(entry));
+    }
+
+    /**
+     * Test of findByPath method, of class EntryRepository.
+     */
+    @Test
+    public void testFindByPath() {
+        System.out.println("EntryRepository.findByPath");
+        Optional<Entry> result = entryRepository.findByPath(entry.getPath());
+        assertThat(result.isPresent(), is(true));
+        assertThat(result.get(), is(equalTo(entry)));
+    }
+
+    /**
+     * Test of findByPath method, of class EntryRepository.
+     */
+    @Test
+    public void testFindByPath_NotPresent() {
+        System.out.println("EntryRepository.findByPath (not present)");
+        Optional<Entry> result = entryRepository.findByPath("not-present");
+        assertThat(result.isPresent(), is(false));
     }
 
     /**

@@ -6,6 +6,6 @@
 <section class="errors">
     <h1 class="content-subhead">{{ message('blog.home') }}</h1>
     <h2>{{ status }} - {{ error }}</h2>
-    <p><time>{{ timestamp | date(message('date.format')) }}</time> {{ message }}</p>
+    <p>{{ message }}</p>
 </section>
 {% endblock %}

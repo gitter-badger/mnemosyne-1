@@ -23,7 +23,10 @@ public class SecurityUserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final MessageSource messageSource;
 
-    public SecurityUserService(UserRepository userRepository, MessageSource messageSource) {
+    public SecurityUserService(
+            UserRepository userRepository,
+            MessageSource messageSource) {
+
         this.userRepository = userRepository;
         this.messageSource = messageSource;
     }

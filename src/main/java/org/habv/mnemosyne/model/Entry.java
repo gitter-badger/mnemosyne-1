@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import static org.habv.mnemosyne.model.Entry.COLLECTION_NAME;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,14 +16,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @EqualsAndHashCode(of = {"id"})
-@Document(collection = Entry.COLLECTION_NAME)
+@Document(collection = COLLECTION_NAME)
 public class Entry {
 
     public static final String COLLECTION_NAME = "entries";
 
     @Id
     private String id;
-    @Indexed
+    @Indexed(unique = true)
     private String path;
     private String title;
     private String content;

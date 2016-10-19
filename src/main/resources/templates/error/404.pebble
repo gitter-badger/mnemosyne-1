@@ -1,12 +1,11 @@
 {% extends "base" %}
 
-{% block title %}{{ message('blog.home') }}{% endblock %}
+{% block title %}{{ message('error.not_found_title') }}{% endblock %}
 
 {% block content %}
 <section class="errors">
     <h1 class="content-subhead">{{ message('blog.home') }}</h1>
-    <h2>404</h2>
-    <p>{{ exception }}</p>
-    <p>{{ url }}</p>
+    <h2>{{ message('error.not_found_title') }}</h2>
+    <p>{{ message('error.not_found_message', request.requestURL) }}</p>
 </section>
 {% endblock %}

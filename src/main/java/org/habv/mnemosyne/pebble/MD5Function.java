@@ -13,20 +13,21 @@ import static org.springframework.util.DigestUtils.md5DigestAsHex;
  * @date 01/10/2016
  */
 public class MD5Function implements Function {
-    
+
     public static final String FUNCTION_NAME = "md5";
-    
+    private static final String EMAIL = "email";
+
     @Override
     public Object execute(Map<String, Object> args) {
-        String email = (String) args.get("email");
+        String email = (String) args.get(EMAIL);
         return md5DigestAsHex(email.getBytes(StandardCharsets.UTF_8));
     }
-    
+
     @Override
     public List<String> getArgumentNames() {
         List<String> names = new ArrayList<>();
-        names.add("email");
+        names.add(EMAIL);
         return names;
     }
-    
+
 }
