@@ -18,7 +18,6 @@ public class EntryEventListener extends AbstractMongoEventListener<Entry> {
         Entry entry = event.getSource();
         String path = entry
                 .getTitle()
-                .trim()//remove empty spaces
                 .replaceAll("[^A-Za-z0-9]+", "-")//replace all special characters with guion
                 .replaceAll("(^-|-$)", "")//remove first and last guion
                 .toLowerCase();

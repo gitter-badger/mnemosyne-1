@@ -57,7 +57,7 @@ public class UserRepositoryTest {
     public void testFindByEmailAndEnabledTrue() {
         System.out.println("UserRepository.findByEmailAndEnabledTrue");
         //Valid user
-        Optional<User> result = userRepository.findByEmailAndEnabledTrue(user1.getEmail());
+        Optional<User> result = userRepository.findByEmailAndEnabledIsTrue(user1.getEmail());
         assertThat(result.isPresent(), is(true));
         assertThat(result.get(), is(equalTo(user1)));
     }
@@ -69,7 +69,7 @@ public class UserRepositoryTest {
     public void testFindByEmailAndEnabledTrue_InvalidUser() {
         System.out.println("UserRepository.findByEmailAndEnabledTrue (invalid user)");
         //Invalid user
-        Optional<User> result = userRepository.findByEmailAndEnabledTrue(user2.getEmail());
+        Optional<User> result = userRepository.findByEmailAndEnabledIsTrue(user2.getEmail());
         assertThat(result.isPresent(), is(false));
     }
 
@@ -80,7 +80,7 @@ public class UserRepositoryTest {
     public void testFindByEmailAndEnabledTrue_FalseUser() {
         System.out.println("UserRepository.findByEmailAndEnabledTrue (false user)");
         //False user
-        Optional<User> result = userRepository.findByEmailAndEnabledTrue(faker.internet().emailAddress());
+        Optional<User> result = userRepository.findByEmailAndEnabledIsTrue(faker.internet().emailAddress());
         assertThat(result.isPresent(), is(false));
     }
 

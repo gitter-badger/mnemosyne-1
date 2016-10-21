@@ -84,9 +84,9 @@ public class EntryRepositoryTest {
      */
     private void checkChronology(Page<Entry> result) {
         Date date = new Date();
-        for (Entry entry : result.getContent()) {
-            assertTrue(date.after(entry.getDate()));
-            date = entry.getDate();
+        for (Entry element : result.getContent()) {
+            assertTrue(date.after(element.getDate()));
+            date = element.getDate();
         }
     }
 
@@ -152,7 +152,7 @@ public class EntryRepositoryTest {
         System.out.println("EntryRepository.findByOrderByDateDesc");
         Pageable pageable = getFirstPage();
         Page<Entry> result = entryRepository.findByOrderByDateDesc(pageable);
-        assertThat(result, is(notNullValue()));
+        assertThat(result, is(notNullValue(Page.class)));
         assertThat(result.hasContent(), is(true));
         assertThat(result.isFirst(), is(true));
         assertThat(result.hasNext(), is(true));
@@ -171,7 +171,7 @@ public class EntryRepositoryTest {
         String category = categories.get(0);
         Pageable pageable = getFirstPage();
         Page<Entry> result = entryRepository.findByCategoryOrderByDateDesc(category, pageable);
-        assertThat(result, is(notNullValue()));
+        assertThat(result, is(notNullValue(Page.class)));
         assertThat(result.hasContent(), is(true));
         assertThat(result, everyItem(hasProperty("category", equalTo(category))));
         checkChronology(result);
@@ -186,7 +186,7 @@ public class EntryRepositoryTest {
         String tag = tags.get(0);
         Pageable pageable = getFirstPage();
         Page<Entry> result = entryRepository.findByTagsOrderByDateDesc(tag, pageable);
-        assertThat(result, is(notNullValue()));
+        assertThat(result, is(notNullValue(Page.class)));
         assertThat(result.hasContent(), is(true));
         assertThat(result, everyItem(hasProperty("tags", hasItem(tag))));
         checkChronology(result);
@@ -199,7 +199,7 @@ public class EntryRepositoryTest {
     public void testFindDistinctCategories() {
         System.out.println("EntryRepository.findDistinctCategories");
         List<String> result = entryRepository.findDistinctCategories();
-        assertThat(result, is(notNullValue()));
+        assertThat(result, is(notNullValue(List.class)));
         assertThat(result, is(not(empty())));
         assertThat(result, hasItems(toStringArray(categories)));
     }
@@ -211,7 +211,7 @@ public class EntryRepositoryTest {
     public void testFindDistinctTags() {
         System.out.println("EntryRepository.findDistinctTags");
         List<String> result = entryRepository.findDistinctTags();
-        assertThat(result, is(notNullValue()));
+        assertThat(result, is(notNullValue(List.class)));
         assertThat(result, is(not(empty())));
         assertThat(result, hasItems(toStringArray(tags)));
     }
