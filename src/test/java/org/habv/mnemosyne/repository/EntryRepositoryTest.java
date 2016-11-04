@@ -4,10 +4,11 @@ import com.github.javafaker.Faker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import org.habv.mnemosyne.model.Entry;
+import static org.habv.mnemosyne.util.StringUtil.toURL;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -36,12 +37,10 @@ public class EntryRepositoryTest {
     private static final int ENTRIES_SIZE = 50;
     private static final int CATEGORIES_SIZE = 5;
     private static final int TAGS_SIZE = 10;
-    private static final int AUTHORS_SIZE = 10;
     private final Faker faker = new Faker();
 
     private final List<String> categories = new ArrayList<>();
     private final List<String> tags = new ArrayList<>();
-    private final List<String> authors = new ArrayList<>();
     private Entry entry;
     private List<Entry> entries = new ArrayList<>();
 
@@ -85,7 +84,7 @@ public class EntryRepositoryTest {
     private void checkChronology(Page<Entry> result) {
         Date date = new Date();
         for (Entry element : result.getContent()) {
-            assertTrue(date.after(element.getDate()));
+            assertTrue(date.after(element.getDate()) || date.equals(element.getDate()));
             date = element.getDate();
         }
     }
@@ -96,31 +95,26 @@ public class EntryRepositoryTest {
         entryRepository.deleteAll();
         categories.clear();
         tags.clear();
-        authors.clear();
         entries.clear();
         //Populate data
         categories.addAll(faker.lorem().words(CATEGORIES_SIZE));
         tags.addAll(faker.lorem().words(TAGS_SIZE));
-        for (int i = 0; i < AUTHORS_SIZE; i++) {
-            authors.add(faker.internet().emailAddress());
-        }
         for (int i = 0; i < ENTRIES_SIZE; i++) {
             Entry element = new Entry();
             element.setTitle(faker.lorem().sentence());
+            element.setPath(toURL(element.getTitle()));
             element.setContent(faker.lorem().paragraph());
-            element.setDate(faker.date().past(7, TimeUnit.DAYS));
-            element.setAuthor(getWithIndex(authors, i));
             element.setCategory(getWithIndex(categories, i));
             String tag1 = getWithIndex(tags, i);
             String tag2 = getWithIndex(tags, i + 1);
             String tag3 = getWithIndex(tags, i + 2);
-            element.setTags(Arrays.asList(tag1, tag2, tag3));
+            element.setTags(new HashSet<>(Arrays.asList(tag1, tag2, tag3)));
 
             entries.add(element);
         }
-        entries = entryRepository.save(entries);
+        entries = entryRepository.insert(entries);
         entry = entries.get(0);
-//        entries.forEach(entry -> System.out.println(entry));
+//        entries.forEach(element -> System.out.println(element));
     }
 
     /**

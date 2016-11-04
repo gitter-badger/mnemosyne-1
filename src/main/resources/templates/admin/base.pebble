@@ -29,7 +29,6 @@
         <div class="header">
             <h1 class="brand-title">{{ message('blog.title') }}</h1>
             <h2 class="brand-tagline">{{ message('blog.description') }}</h2>
-{% if isAuthenticated() %}
             <nav class="nav">
                 <ul class="nav-list">
                     <li class="nav-item">
@@ -40,7 +39,6 @@
                     </li>
                 </ul>
             </nav>
-{% endif %}
         </div>
     </aside>
     <section class="content pure-u-1 pure-u-md-3-4">

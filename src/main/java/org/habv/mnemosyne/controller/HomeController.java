@@ -2,11 +2,13 @@ package org.habv.mnemosyne.controller;
 
 import java.util.Optional;
 import org.habv.mnemosyne.model.Entry;
+import org.habv.mnemosyne.model.EntryForm;
 import org.habv.mnemosyne.repository.EntryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,8 +44,9 @@ public class HomeController {
     private ModelAndView loadPage(Page<Entry> entries) {
         return Optional
                 .ofNullable(entries)
-                .filter(page -> page.hasContent())
-                .map(page -> new ModelAndView(TEMPLATE, TEMPLATE, page))
+                .filter(Slice::hasContent)
+                .map(page -> new ModelAndView(TEMPLATE)
+                        .addObject(EntryForm.ENTRIES, page))
                 .orElse(new NotFoundView());
     }
 

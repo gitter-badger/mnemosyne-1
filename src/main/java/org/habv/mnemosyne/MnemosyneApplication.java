@@ -14,4 +14,5 @@ public class MnemosyneApplication {
     public static void main(String[] args) {
         SpringApplication.run(MnemosyneApplication.class, args);
     }
+    
 }

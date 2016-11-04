@@ -10,7 +10,7 @@
         <article class="post">
             <header class="post-header">
                 {{ gravatar(entry.author) }}
-                <h2 class="post-title">{{ entry.title }}</h2>
+                <a href="/blog/{{ entry.path }}"><h2 class="post-title">{{ entry.title }}</h2></a>
                 <p class="post-meta">
                     <i class="fa fa-calendar" aria-hidden="true"></i> <time>{{ entry.date | date(message('date.format')) }}</time> <i class="fa fa-folder-open" aria-hidden="true"></i> {{ entry.category }} <i class="fa fa-tags" aria-hidden="true"></i> {{ entry.tags | join(',') }}
                 </p>

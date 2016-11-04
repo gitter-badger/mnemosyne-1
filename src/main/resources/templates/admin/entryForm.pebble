@@ -1,0 +1,47 @@
+{% import "../macros" %}
+{% extends "base" %}
+
+{% block title %}{{ message('blog.home') }}{% endblock %}
+
+{% block content %}
+<section class="posts">
+    <h1 class="content-subhead">{{ message('blog.home') }}</h1>
+    <form method="post" role="form" class="pure-form pure-form-stacked">
+        <fieldset>
+            {{ inputcsrf(request.getAttribute('_csrf')) }}
+
+            <label for="title">{{ message('entry.title') }}</label>
+            <input class="pure-input-1" id="title" name="title" type="text" placeholder="{{ message('entry.title') }}" value="{{ entry.title }}">
+{% for err in getFieldErrors('entry', 'title') %}
+            <span>{{ err }}</span>
+{% endfor %}
+
+            <label for="content">{{ message('entry.content') }}</label>
+            <textarea class="pure-input-1" id="content" name="content" rows="20" placeholder="{{ message('entry.content') }}">{{ entry.content }}</textarea>
+{% for err in getFieldErrors('entry', 'content') %}
+            <span>{{ err }}</span>
+{% endfor %}
+
+            <label for="category">{{ message('entry.category') }}</label>
+            <input class="pure-input-1" id="category" name="category" type="text" placeholder="{{ message('entry.category') }}" list="category-list" value="{{ entry.category }}">
+{% for err in getFieldErrors('entry', 'category') %}
+            <span>{{ err }}</span>
+{% endfor %}
+            <datalist id="category-list">
+{% for category in categories %}
+                <option value="{{ category }}">
+{% endfor %}
+            </datalist>
+
+            <label for="tags">{{ message('entry.tags') }}</label>
+            <input class="pure-input-1" id="tags" name="tags" type="text" placeholder="{{ message('entry.tags') }}" value="{{ entry.tags | join(', ') }}">
+{% for err in getFieldErrors('entry', 'tags') %}
+            <span>{{ err }}</span>
+{% endfor %}
+
+            <br />
+            <button type="submit" class="pure-button pure-button-primary">{{ message('button.accept') }}</button>
+        </fieldset>
+    </form>
+</section>
+{% endblock %}

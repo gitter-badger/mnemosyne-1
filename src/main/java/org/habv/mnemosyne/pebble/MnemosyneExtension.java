@@ -14,8 +14,13 @@ public class MnemosyneExtension extends AbstractExtension {
 
     @Override
     public Map<String, Function> getFunctions() {
-        Map<String, Function> functions = new HashMap<String, Function>();
+        Map<String, Function> functions = new HashMap<>();
         functions.put(MD5Function.FUNCTION_NAME, new MD5Function());
+        functions.put(IsAuthenticated.FUNCTION_NAME, new IsAuthenticated());
+        functions.put(IsAnonymous.FUNCTION_NAME, new IsAnonymous());
+        functions.put(HasRole.FUNCTION_NAME, new HasRole());
+        functions.put(HasAnyRole.FUNCTION_NAME, new HasAnyRole());
+        functions.put(Principal.FUNCTION_NAME, new Principal());
         return functions;
     }
 

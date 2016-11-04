@@ -1,5 +1,6 @@
 package org.habv.mnemosyne.controller;
 
+import org.habv.mnemosyne.model.EntryForm;
 import org.habv.mnemosyne.repository.EntryRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,8 @@ public class EntryController {
     public ModelAndView entry(@PathVariable String path) {
         return entryRepository
                 .findByPath(path)
-                .map(entry -> new ModelAndView(TEMPLATE, TEMPLATE, entry))
+                .map(entry -> new ModelAndView(TEMPLATE)
+                        .addObject(EntryForm.ENTRY, entry))
                 .orElse(new NotFoundView());
     }
 

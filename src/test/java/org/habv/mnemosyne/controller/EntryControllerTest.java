@@ -1,11 +1,14 @@
 package org.habv.mnemosyne.controller;
 
 import com.github.javafaker.Faker;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import static org.habv.mnemosyne.controller.EntryController.TEMPLATE;
 import org.habv.mnemosyne.model.Entry;
+import org.habv.mnemosyne.model.EntryForm;
 import org.habv.mnemosyne.repository.EntryRepository;
+import static org.habv.mnemosyne.util.StringUtil.toURL;
 import static org.hamcrest.Matchers.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,12 +50,12 @@ public class EntryControllerTest {
         entry = new Entry();
         entry.setId(faker.crypto().md5());
         entry.setTitle(faker.lorem().sentence());
-        entry.setPath("path-to-test");
+        entry.setPath(toURL(entry.getTitle()));
         entry.setContent(faker.lorem().paragraph());
         entry.setDate(faker.date().past(7, TimeUnit.DAYS));
         entry.setAuthor(faker.internet().emailAddress());
         entry.setCategory(faker.lorem().word());
-        entry.setTags(faker.lorem().words(3));
+        entry.setTags(new HashSet<>(faker.lorem().words(3)));
     }
 
     /**
@@ -66,13 +69,14 @@ public class EntryControllerTest {
         given(entryRepository.findByPath(entry.getPath()))
                 .willReturn(Optional.of(entry));
 
-        mvc.perform(get("/blog/{path}", entry.getPath()).accept(MediaType.TEXT_HTML))
+        mvc.perform(get("/blog/{path}", entry.getPath())
+                .accept(MediaType.TEXT_HTML))
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
                 .andExpect(view().name(TEMPLATE))
-                .andExpect(model().attributeExists(TEMPLATE))
-                .andExpect(model().attribute(TEMPLATE, is(notNullValue())))
-                .andExpect(model().attribute(TEMPLATE, is(equalTo(entry))))
+                .andExpect(model().attributeExists(EntryForm.ENTRY))
+                .andExpect(model().attribute(EntryForm.ENTRY, is(notNullValue())))
+                .andExpect(model().attribute(EntryForm.ENTRY, is(equalTo(entry))))
                 .andExpect(forwardedUrl(TEMPLATE));
     }
 
@@ -88,11 +92,12 @@ public class EntryControllerTest {
         given(entryRepository.findByPath(path))
                 .willReturn(Optional.empty());
 
-        mvc.perform(get("/blog/{path}", path).accept(MediaType.TEXT_HTML))
+        mvc.perform(get("/blog/{path}", path)
+                .accept(MediaType.TEXT_HTML))
                 .andExpect(authenticated())
                 .andExpect(status().isNotFound())
                 .andExpect(view().name(NotFoundView.TEMPLATE))
-                .andExpect(model().attributeDoesNotExist(TEMPLATE))
+                .andExpect(model().attributeDoesNotExist(EntryForm.ENTRY))
                 .andExpect(forwardedUrl(NotFoundView.TEMPLATE));
     }
 

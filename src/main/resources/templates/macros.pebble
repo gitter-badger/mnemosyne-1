@@ -5,3 +5,10 @@
 {% macro inputcsrf(csrf) %}
 <input type="hidden" name="{{ csrf.parameterName }}" value="{{ csrf.token }}"/>
 {% endmacro %}
+
+{% macro inputtext(id="ID", name="Name", type="text", value="", required="", autofocus="") %}
+<div class="pure-control-group">
+    <label for="{{ id }}">{{ name }}</label>
+    <input id="{{ id }}" name="{{ id }}" type="{{ type }}" placeholder="{{ name }}" value="{{ value }}" required="required" autofocus="autofocus">
+</div>
+{% endmacro %}

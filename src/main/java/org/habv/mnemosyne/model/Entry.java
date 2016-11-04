@@ -1,11 +1,15 @@
 package org.habv.mnemosyne.model;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import static org.habv.mnemosyne.model.Entry.COLLECTION_NAME;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,14 +27,21 @@ public class Entry {
 
     @Id
     private String id;
+    private String title;
     @Indexed(unique = true)
     private String path;
-    private String title;
     private String content;
-    private String author;
-    private Date date;
     @Indexed
     private String category;
     @Indexed
-    private List<String> tags;
+    private Set<String> tags;
+    //Auditing
+    @CreatedBy
+    private String author;
+    @CreatedDate
+    private Date date;
+    @LastModifiedDate
+    private Date updatedDate;
+    @LastModifiedBy
+    private String updatedBy;
 }

@@ -3,14 +3,14 @@ package org.habv.mnemosyne.pebble;
 import com.mitchellbosecke.pebble.extension.Extension;
 import com.mitchellbosecke.pebble.spring4.extension.SpringExtension;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Herman Barrantes
  * @since 0.1.0
  * @date 01/10/2016
  */
-@Component
+@Configuration
 public class PebbleConfig {
 
     @Bean

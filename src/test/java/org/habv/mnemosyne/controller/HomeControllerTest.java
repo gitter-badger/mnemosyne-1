@@ -2,13 +2,14 @@ package org.habv.mnemosyne.controller;
 
 import com.github.javafaker.Faker;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import static org.habv.mnemosyne.controller.HomeController.TEMPLATE;
 import org.habv.mnemosyne.model.Entry;
+import org.habv.mnemosyne.model.EntryForm;
 import org.habv.mnemosyne.repository.EntryRepository;
+import static org.habv.mnemosyne.util.StringUtil.toURL;
 import static org.hamcrest.Matchers.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -103,11 +104,12 @@ public class HomeControllerTest {
         for (int i = 0; i < ENTRIES_SIZE; i++) {
             Entry entry = new Entry();
             entry.setTitle(faker.lorem().sentence());
+            entry.setPath(toURL(entry.getTitle()));
             entry.setContent(faker.lorem().paragraph());
             entry.setDate(faker.date().past(7, TimeUnit.DAYS));
             entry.setAuthor(author);
             entry.setCategory(category);
-            entry.setTags(Arrays.asList(tag));
+            entry.setTags(Collections.singleton(tag));
 
             entries.add(entry);
         }
@@ -134,10 +136,10 @@ public class HomeControllerTest {
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
                 .andExpect(view().name(TEMPLATE))
-                .andExpect(model().attributeExists(TEMPLATE))
-                .andExpect(model().attribute(TEMPLATE, is(notNullValue())))
-                .andExpect(model().attribute(TEMPLATE, hasProperty("content", is(not(empty())))))
-                .andExpect(model().attribute(TEMPLATE, hasProperty("content", hasSize(ENTRIES_SIZE))))
+                .andExpect(model().attributeExists(EntryForm.ENTRIES))
+                .andExpect(model().attribute(EntryForm.ENTRIES, is(notNullValue())))
+                .andExpect(model().attribute(EntryForm.ENTRIES, hasProperty("content", is(not(empty())))))
+                .andExpect(model().attribute(EntryForm.ENTRIES, hasProperty("content", hasSize(ENTRIES_SIZE))))
                 .andExpect(forwardedUrl(TEMPLATE));
     }
 
@@ -152,7 +154,7 @@ public class HomeControllerTest {
                 .andExpect(authenticated())
                 .andExpect(status().isNotFound())
                 .andExpect(view().name(NotFoundView.TEMPLATE))
-                .andExpect(model().attributeDoesNotExist(TEMPLATE))
+                .andExpect(model().attributeDoesNotExist(EntryForm.ENTRIES))
                 .andExpect(forwardedUrl(NotFoundView.TEMPLATE));
     }
 
